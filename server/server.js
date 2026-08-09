@@ -9,7 +9,15 @@ const app = express();
 
 connectDB();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://ai-career-copilot-244bwdxze-dimripriyanshu12s-projects.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 const authRoutes = require("./routes/authRoutes");
