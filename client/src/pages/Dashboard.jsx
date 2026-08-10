@@ -10,6 +10,7 @@ function Dashboard() {
   const [resumes, setResumes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showMenu, setShowMenu] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
     const fetchResumes = async () => {
@@ -62,16 +63,26 @@ function Dashboard() {
     <div className="min-h-screen bg-slate-100">
       {/* ================= NAVBAR ================= */}
 
-      <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6">
-        {/* Logo */}
+      <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6">
 
-        <button
-          onClick={() => navigate("/dashboard")}
-          className="text-xl font-bold text-slate-900"
-        >
-          AI Career Copilot
-        </button>
+        {/* Logo + Mobile Menu */}
 
+<div className="flex items-center gap-3">
+  <button
+    onClick={() => setShowSidebar(true)}
+    className="md:hidden w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-xl text-slate-700"
+    aria-label="Open menu"
+  >
+    ☰
+  </button>
+
+  <button
+    onClick={() => navigate("/dashboard")}
+    className="text-lg sm:text-xl font-bold text-slate-900"
+  >
+    AI Career Copilot
+  </button>
+</div>
         {/* User Menu */}
 
         <div className="relative">
@@ -182,7 +193,101 @@ function Dashboard() {
             </p>
           </div>
         </aside>
+{/* ================= MOBILE SIDEBAR ================= */}
 
+{showSidebar && (
+  <div className="fixed inset-0 z-50 md:hidden">
+    {/* Overlay */}
+
+    <button
+      onClick={() => setShowSidebar(false)}
+      className="absolute inset-0 bg-black/50"
+      aria-label="Close menu"
+    />
+
+    {/* Sidebar */}
+
+    <aside className="relative w-72 max-w-[85vw] h-full bg-slate-950 text-white p-4 shadow-2xl">
+      <div className="flex items-center justify-between mb-8 px-2">
+        <div>
+          <p className="font-bold text-lg">AI Career Copilot</p>
+          <p className="text-xs text-slate-500 mt-1">Workspace</p>
+        </div>
+
+        <button
+          onClick={() => setShowSidebar(false)}
+          className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-lg"
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
+      </div>
+
+      <nav className="space-y-2">
+        <button
+          onClick={() => {
+            navigate("/dashboard");
+            setShowSidebar(false);
+          }}
+          className="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg bg-white/10 text-white"
+        >
+          <span>▦</span>
+          <span>Dashboard</span>
+        </button>
+
+        <button
+          onClick={() => {
+            navigate("/resumes");
+            setShowSidebar(false);
+          }}
+          className="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition"
+        >
+          <span>▤</span>
+          <span>My Resumes</span>
+        </button>
+
+        <button
+          onClick={() => {
+            navigate("/analyzer");
+            setShowSidebar(false);
+          }}
+          className="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition"
+        >
+          <span>✦</span>
+          <span>Resume Analyzer</span>
+        </button>
+
+        <button
+          onClick={() => {
+            navigate("/job-matcher");
+            setShowSidebar(false);
+          }}
+          className="w-full text-left px-4 py-3 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition"
+        >
+          Job Matcher
+        </button>
+
+        <button
+          onClick={() => {
+            navigate("/resume-builder");
+            setShowSidebar(false);
+          }}
+          className="w-full text-left px-4 py-3 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition"
+        >
+          AI Resume Builder
+        </button>
+      </nav>
+
+      <div className="absolute bottom-6 left-6">
+        <p className="text-xs text-slate-500">AI Career Copilot</p>
+
+        <p className="text-xs text-slate-600 mt-1">
+          Career Intelligence Platform
+        </p>
+      </div>
+    </aside>
+  </div>
+)}
         {/* ================= CONTENT ================= */}
 
         <main className="flex-1 p-6 md:p-8">
